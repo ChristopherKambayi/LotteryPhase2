@@ -11,90 +11,97 @@ package lottery;
  * Lottery.java
  */
 
-public class Lottery 
+public class Lottery extends Draw
 {
     //Declaring variables
-    private Draw [] lotto;
-    private int lottery, plus1, plus2;
+    private final Draw [] lotto = new Draw[3];
+    private int lineOne, lineTwo, lineThree, printNum;
 
-    //Default constructor
+    //Overloaded constructor
     public Lottery()
-    {
-        this.lotto = new Draw[3];
-        this.lottery = 0;
-        this.plus1 = 0;
-        this.plus2 = 0;
+    {        
+        this.lotto[0] = new Draw();
+        this.lotto[0].setDrawType("lotto");
+        
+        this.lotto[1] = new Draw();
+        this.lotto[1].setDrawType("plus1");
+                
+        this.lotto[2] = new Draw(); 
+        this.lotto[2].setDrawType("plus2");
+        
+        this.lineOne = 0;
+        this.lineTwo = 0;
+        this.lineThree = 0;
     }
-
-    //Method to generate random numbers in each object in arrays of objects
-    public void generates()
+    
+    public void runLotto()
     {
-        for(int i = 0; i < 3; i++)
+        for(int i = 0; i < lotto.length; i++)
         {
-
-           
-           
-           
-           /* if(i == 0)
-            {
-                lotto[i].setDrawType("lotto");
-            }
-            else if (i == 1)
-            {
-                lotto[i].setDrawType("plus1");
-            }
-            else if(i == 2)
-            {
-                lotto[i].setDrawType("plus2");
-            }*/
+            lotto[i].generate();
         }
     }
     
-    //Method to compare played numbers arrays to array of objects
-    public void drawLotto(int [] numbers, String type)
+    public void verify(int [] num, String typ)
     {
-        int []  temp = lotto[0].getLotto();
+        int numRun = 0;
         
-        
-        for(int k = 0; k < 3; k++)
+        if(typ.equalsIgnoreCase("lotto"))
         {
-            int [] temp2 = lotto[k].getLotto();
+            numRun = 1;
+            this.printNum = 0;
+        }
+        if(typ.equalsIgnoreCase("plus1"))
+        {
+            numRun = 2;
+            this.printNum = 1;
+        }
+        if(typ.equalsIgnoreCase("plus2"))
+        {
+            numRun = 3;
+            this.printNum = 2;
+        }
+        
+        for(int i = 0; i < numRun; i++)
+        {
+            int []  temp = lotto[i].getLotto();
+            String type = lotto[i].getDrawType();
             
-            for(int i = 0; i < numbers.length; i++)
+            for(int j = 0; j < 5; j++)
             {
-                for(int j = 0; j < temp.length; j++)
+                for(int k = 0; k < 5; k++)
                 {
-                    if(numbers[i] == temp2[j])
+                    if((num[j] == temp[k]) && (type.equalsIgnoreCase("lotto")))
                     {
-                        if(j == 0)
-                        {
-                            lottery = lottery + 1;
-                        }
-                        else if(j == 1)
-                        {
-                            plus1 = plus1 + 1;
-                        }
-                        else if(j == 2)
-                        {
-                            plus2 = plus2 + 1;
-                        }
-                    }      
+                        lineOne = lineOne + 1;
+                    }
+                    if((num[j] == temp[k]) && (type.equalsIgnoreCase("plus1")))
+                    {
+                        lineTwo = lineTwo + 1;
+                    }
+                    if((num[j] == temp[k]) && (type.equalsIgnoreCase("plus2")))
+                    {
+                        lineThree = lineThree + 1;
+                    }
                 }
             }
         }
     }
-
-    //Getter
-    public Draw[] getLotto() 
-    {
-        return lotto;
-    }
     
-    //Print results
     public void printResults()
     {
-        System.out.println(lottery);
-        System.out.println(plus1);
-        System.out.println(plus2);
+        if(printNum <= 2)
+        {
+            System.out.println("Lotto results " + lineOne);
+        }
+        
+        if(printNum >= 1)
+        {
+            System.out.println("Lotto Plus 1 results " + lineTwo);
+        }
+        
+        if(printNum == 2)
+        System.out.println("Lotto Plus 2 results " + lineThree);
+        
     }
 }

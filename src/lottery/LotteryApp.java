@@ -17,58 +17,25 @@ import javax.swing.JOptionPane;
 public class LotteryApp 
 {
     public static void main(String [] args)
-    {
-        int [] myNumbs = new int [5];
-        String type;
+    { 
+        int [] myNums = new int [5];
         
-        Draw [] myDraw = new Draw [3];
+        Lottery myLotto = new Lottery();
         
-        for(int i = 0; i < 3; i++)
+        JOptionPane.showMessageDialog(null, "Welcome to the Lottery");
+        JOptionPane.showMessageDialog(null, "Enter numbers between 1 and 40");
+        
+        for(int i = 0; i < myNums.length; i++)
         {
-            myDraw[i] = new Draw();
+            myNums[i] = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter number " + (i + 1)));
         }
         
-        myDraw[0].setDrawType("lotto");
-        myDraw[1].setDrawType("plus1");
-        myDraw[2].setDrawType("plus2");
+        myLotto.runLotto();
         
-        myDraw[0].generate();
-        myDraw[1].generate();
-        myDraw[2].generate();
+        String runType = JOptionPane.showInputDialog(null, "Lotto, Plus1 or Plus2: ");
         
-        for(int i = 0; i < myNumbs.length; i++)
-        {
-            myNumbs[i] = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter number " + (i + 1)));
-            
-            type = JOptionPane.showInputDialog(null, "Lotto, Plus1 or Plus2?");
-        }
+        myLotto.verify(myNums, runType);
         
-        myDraw[0].compute(myNumbs);
-        myDraw[1].compute(myNumbs);
-        myDraw[2].compute(myNumbs);
-        
-        myDraw[0].printResults();
-        myDraw[1].printResults();
-        myDraw[2].printResults();
-        
-        int [] temp = myDraw[0].getLotto();
-        
-        for(int i = 0; i < 5; i++)
-        {
-            System.out.print(temp[i] + " ");
-        }
-        int [] temp1 = myDraw[1].getLotto();
-        
-        for(int i = 0; i < 5; i++)
-        {
-            System.out.print(temp1[i] + " ");
-        }
-        int [] temp2 = myDraw[2].getLotto();
-        
-        for(int i = 0; i < 5; i++)
-        {
-            System.out.print(temp2[i] + " ");
-        }
-        
+        myLotto.printResults();        
     }
 }

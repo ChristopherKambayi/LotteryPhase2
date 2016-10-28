@@ -83,10 +83,4 @@ public class Draw
     {
         return drawType;
     }
-    
-    //printing the result
-    public void printResults()
-    {
-        System.out.println(drawType + " right" + correct);
-    }
 }
